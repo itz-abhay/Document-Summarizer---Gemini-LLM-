@@ -73,9 +73,9 @@ def main():
             page = pdf_reader.pages[page_num]
             data += page.extract_text()
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=200)
-        context = "\n".join(str(p.page_content) for p in data)
+        # context = "\n".join(str(p.page_content) for p in data)
 
-        texts = text_splitter.split_text(context)
+        texts = text_splitter.split_text(data)
         embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001")
         vector_index = Chroma.from_texts(texts, embeddings).as_retriever()
 
