@@ -41,7 +41,7 @@ def main():
     def embed():
 
         # --------------------------Saving the uploaded file--------------------------------------
-        def save(uploaded_file):
+        # def save(uploaded_file):
             # pdfs_path = "D:\\vs_code_projects\\PDF_Langchain\\pdfs"
             # Check if the file already exists.
             # Get a list of all files in the directory
