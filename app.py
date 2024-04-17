@@ -69,8 +69,8 @@ def main():
         loader = PdfReader(uploaded_pdf)
         # data = loader.load_and_split()
         data = ""
-        for page_num in range(len(pdf_reader.pages)):
-            page = pdf_reader.pages[page_num]
+        for page_num in range(len(loader.pages)):
+            page = loader.pages[page_num]
             data += page.extract_text()
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=200)
         # context = "\n".join(str(p.page_content) for p in data)
