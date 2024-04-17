@@ -6,7 +6,7 @@ from langchain.prompts import PromptTemplate
 from langchain.chains.question_answering import load_qa_chain
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
-from PyPDF2 import PdfFileReader
+from PyPDF2 import PdfReader
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from streamlit import session_state
@@ -66,7 +66,7 @@ def main():
 
         # ------------------------ Loading/ Splitting in shunks/ Generate Emebeddings----------------- 
         # loader = PyPDFDirectoryLoader("D:\\vs_code_projects\\PDF_Langchain\\pdfs")
-        loader = PdfFileReader(uploaded_pdf)
+        loader = PdfReader(uploaded_pdf)
         data = loader.load_and_split()
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=200)
         context = "\n".join(str(p.page_content) for p in data)
