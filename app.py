@@ -12,13 +12,8 @@ from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from streamlit import session_state
 from dotenv import load_dotenv
 load_dotenv() 
-# genai.configure(api_key="AIzaSyDVqhJAMhWc5VEk0jbHTlM8U4a7BqGHot8")
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-# from google.ai import generativelanguage as glm
-
-# client = glm.DiscussServiceClient(
-#     client_options={'api_key':'AIzaSyDVqhJAMhWc5VEk0jbHTlM8U4a7BqGHot8'})
 
 prompt_template = """
   Answer the question as detailed as possible from the provided context, make sure to provide all the details from the given context only, 
@@ -42,38 +37,34 @@ def main():
     def embed():
 
         # --------------------------Saving the uploaded file--------------------------------------
-        # def save(uploaded_file):
-            # pdfs_path = "D:\\vs_code_projects\\PDF_Langchain\\pdfs"
-            # Check if the file already exists.
-            # Get a list of all files in the directory
-            # file_list = os.listdir(pdfs_path)
-            # Iterate through the files and delete them
-            # for file_name in file_list:
-            #     file_path = os.path.join(pdfs_path, file_name)
-            #     if os.path.isfile(file_path):
-            #         os.remove(file_path)
+        def save(uploaded_file):
+            pdfs_path = "D:\\vs_code_projects\\PDF_Langchain\\pdfs"
+            Check if the file already exists.
+            Get a list of all files in the directory
+            file_list = os.listdir(pdfs_path)
+            Iterate through the files and delete them
+            for file_name in file_list:
+                file_path = os.path.join(pdfs_path, file_name)
+                if os.path.isfile(file_path):
+                    os.remove(file_path)
 
-            # if uploaded_file is not None:
-            #     # Check if "pdfs" exists and handle accordingly
-            #     if not os.path.exists(pdfs_path):
-            #         os.makedirs(pdfs_path)
+            if uploaded_file is not None:
+                # Check if "pdfs" exists and handle accordingly
+                if not os.path.exists(pdfs_path):
+                    os.makedirs(pdfs_path)
                     
-                # with open(os.path.join(pdfs_path, uploaded_file.name), "wb") as f:
-                #     f.write(uploaded_file.getbuffer())
+                with open(os.path.join(pdfs_path, uploaded_file.name), "wb") as f:
+                    f.write(uploaded_file.getbuffer())
 
-        # save(uploaded_pdf)
+        save(uploaded_pdf)
         # ------------------------------File Saving Done ----------------------------------------------
 
         # ------------------------ Loading/ Splitting in shunks/ Generate Emebeddings----------------- 
-        # loader = PyPDFDirectoryLoader("D:\\vs_code_projects\\PDF_Langchain\\pdfs")
+        loader = PyPDFDirectoryLoader("D:\\vs_code_projects\\PDF_Langchain\\pdfs")
         loader = PdfReader(uploaded_pdf)
-        # data = loader.load_and_split()
-        data = ""
-        for page_num in range(len(loader.pages)):
-            page = loader.pages[page_num]
-            data += page.extract_text()
+        data = loader.load_and_split()
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=200)
-        # context = "\n".join(str(p.page_content) for p in data)
+        context = "\n".join(str(p.page_content) for p in data)
 
         texts = text_splitter.split_text(data)
         embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001")
