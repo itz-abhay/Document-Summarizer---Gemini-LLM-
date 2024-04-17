@@ -42,29 +42,30 @@ def main():
 
         # --------------------------Saving the uploaded file--------------------------------------
         def save(uploaded_file):
-            pdfs_path = "D:\\vs_code_projects\\PDF_Langchain\\pdfs"
+            # pdfs_path = "D:\\vs_code_projects\\PDF_Langchain\\pdfs"
             # Check if the file already exists.
             # Get a list of all files in the directory
-            file_list = os.listdir(pdfs_path)
+            # file_list = os.listdir(pdfs_path)
             # Iterate through the files and delete them
-            for file_name in file_list:
-                file_path = os.path.join(pdfs_path, file_name)
-                if os.path.isfile(file_path):
-                    os.remove(file_path)
+            # for file_name in file_list:
+            #     file_path = os.path.join(pdfs_path, file_name)
+            #     if os.path.isfile(file_path):
+            #         os.remove(file_path)
 
-            if uploaded_file is not None:
-                # Check if "pdfs" exists and handle accordingly
-                if not os.path.exists(pdfs_path):
-                    os.makedirs(pdfs_path)
+            # if uploaded_file is not None:
+            #     # Check if "pdfs" exists and handle accordingly
+            #     if not os.path.exists(pdfs_path):
+            #         os.makedirs(pdfs_path)
                     
-                with open(os.path.join(pdfs_path, uploaded_file.name), "wb") as f:
-                    f.write(uploaded_file.getbuffer())
+                # with open(os.path.join(pdfs_path, uploaded_file.name), "wb") as f:
+                #     f.write(uploaded_file.getbuffer())
 
-        save(uploaded_pdf)
+        # save(uploaded_pdf)
         # ------------------------------File Saving Done ----------------------------------------------
 
         # ------------------------ Loading/ Splitting in shunks/ Generate Emebeddings----------------- 
-        loader = PyPDFDirectoryLoader("D:\\vs_code_projects\\PDF_Langchain\\pdfs")
+        # loader = PyPDFDirectoryLoader("D:\\vs_code_projects\\PDF_Langchain\\pdfs")
+        loader = PdfFileReader(uploaded_pdf)
         data = loader.load_and_split()
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=200)
         context = "\n".join(str(p.page_content) for p in data)
